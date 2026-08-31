@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us – DORCO New Zealand</title>
+  <meta name="description" content="Get in touch with DORCO New Zealand. For product enquiries, press, or general questions.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><img src="images/logo.png" alt="DORCO"></a>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.closest('header').querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li class="dropdown">
+        <a href="products.html">Products</a>
+        <ul class="dropdown-menu">
+          <li class="sub-dropdown"><a href="men.html">Men ›</a>
+            <ul class="sub-menu">
+              <li><a href="men.html#systems">Razor Systems</a></li>
+              <li><a href="men.html#cartridges">Razor Cartridges</a></li>
+            </ul>
+          </li>
+          <li class="sub-dropdown"><a href="women.html">Women ›</a>
+            <ul class="sub-menu">
+              <li><a href="women.html#systems">Razor Systems</a></li>
+              <li><a href="women.html#cartridges">Razor Cartridges</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="about.html">About Us</a>
+        <ul class="dropdown-menu">
+          <li><a href="technology.html">Our Technology</a></li>
+          <li><a href="contact.html">Press Enquiries</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a class="btn-checkout" href="products.html">Shop Now</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you. Whether it's a product question, press enquiry, or general feedback.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="split">
+      <div>
+        <h2>Get in touch</h2>
+        <p>Fill out the form and we'll get back to you as soon as possible. For FAQs, check our <a href="faq.html" style="color: var(--green); font-weight:600;">FAQ page</a> first — you may find the answer there instantly.</p>
+
+        <form class="contact-form" style="margin-top:32px;" onsubmit="handleContactSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="fname" required>
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lname" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject">
+              <option value="">Select a topic...</option>
+              <option>Product enquiry</option>
+              <option>Order / delivery</option>
+              <option>Return / refund</option>
+              <option>Press enquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+          <div id="form-success" style="display:none; margin-top:16px; padding:16px; background:#f0fce0; border-radius:4px; color:#3a6000; font-size:14px; font-weight:600;">
+            Thanks! We'll be in touch shortly.
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <h2>Connect with us</h2>
+        <p>Follow us on social media for the latest products, tips, and deals.</p>
+        <div style="margin-top:24px; display:flex; flex-direction:column; gap:16px;">
+          <a href="https://www.facebook.com/DorcoRazorsNZ" style="display:flex; align-items:center; gap:12px; padding:16px; background:var(--light-bg); border-radius:8px; color:var(--dark); font-weight:600; font-size:14px; transition:background 0.2s;" onmouseover="this.style.background='#e8f0ff'" onmouseout="this.style.background='var(--light-bg)'">
+            <span style="width:36px; height:36px; background:#1877F2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; flex-shrink:0;">f</span>
+            DorcoRazorsNZ on Facebook
+          </a>
+          <a href="https://www.instagram.com/dorconz/" style="display:flex; align-items:center; gap:12px; padding:16px; background:var(--light-bg); border-radius:8px; color:var(--dark); font-weight:600; font-size:14px; transition:background 0.2s;" onmouseover="this.style.background='#ffeef8'" onmouseout="this.style.background='var(--light-bg)'">
+            <span style="width:36px; height:36px; background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:16px; flex-shrink:0;">&#9641;</span>
+            @dorconz on Instagram
+          </a>
+        </div>
+
+        <div style="margin-top:40px; padding:24px; background:var(--green); border-radius:8px;">
+          <h3 style="font-size:16px; font-weight:700; color:var(--black); margin-bottom:8px;">Quick links</h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+            <li><a href="faq.html" style="color:var(--black); font-size:14px; font-weight:500;">→ FAQs</a></li>
+            <li><a href="return-policy.html" style="color:var(--black); font-size:14px; font-weight:500;">→ Return Policy</a></li>
+            <li><a href="products.html" style="color:var(--black); font-size:14px; font-weight:500;">→ All Products</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-logo" src="images/logo.png" alt="DORCO">
+        <p>Dorco® New Zealand is the exclusive NZ distributor of Dorco shaving products.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/DorcoRazorsNZ" aria-label="Facebook">f</a>
+          <a href="https://www.instagram.com/dorconz/" aria-label="Instagram">&#9641;</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get Closer</h4>
+        <ul>
+          <li><a href="men.html">For Men</a></li>
+          <li><a href="women.html">For Women</a></li>
+          <li><a href="about.html">What's a Dorco</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Here to Help</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Press Enquiries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="technology.html">Our Technology</a></li>
+        </ul>
+        <h4 style="margin-top:20px;">Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="return-policy.html">Return Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Copyright &copy; 2026 DORCO NZ All Rights Reserved</span>
+      <span>Dorco® New Zealand is the exclusive NZ distributor of Dorco shaving products.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function handleContactSubmit(e) {
+  e.preventDefault();
+  document.getElementById('form-success').style.display = 'block';
+  e.target.querySelector('button[type=submit]').disabled = true;
+}
+</script>
+
+</body>
+</html>
