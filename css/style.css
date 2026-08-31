@@ -233,6 +233,42 @@ header {
 .split.reverse { direction: rtl; }
 .split.reverse > * { direction: ltr; }
 
+/* ─── Duo panels (Products / Our Story) ─── */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.duo-panel {
+  position: relative;
+  min-height: 440px;
+  padding: 72px 48px 56px;
+  overflow: hidden;
+}
+.duo-panel:nth-child(1) { background: #efefef; }
+.duo-panel:nth-child(2) { background: #e1e2e4; }
+.duo-panel h2 {
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 800;
+  color: var(--black);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  max-width: 8em;
+}
+.duo-panel p {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin-bottom: 28px;
+}
+.duo-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48%;
+  max-width: 288px;
+  pointer-events: none;
+}
+
 /* ─── Product cards ─── */
 .products-grid {
   display: grid;
@@ -532,6 +568,8 @@ footer {
 @media (max-width: 600px) {
   .split { grid-template-columns: 1fr; }
   .split.reverse { direction: ltr; }
+  .duo { grid-template-columns: 1fr; }
+  .duo-panel { min-height: 360px; padding: 56px 24px 40px; }
 }
 
 @media (max-width: 768px) {
