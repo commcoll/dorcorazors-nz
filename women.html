@@ -89,8 +89,15 @@
           <h3>EVE 3 refill cartridges x 4</h3>
           <ul><li>4 Refill cartridges</li></ul>
           <div class="card-foot">
+            <label class="opt-label" for="opt-e3">Quantity</label>
+            <select class="opt-select" id="opt-e3">
+              <option data-price="$11.99" value="https://buy.stripe.com/test_bJe28s0ySaWn4SpcsldjO07" selected>1 pack (4 cartridges)</option>
+              <option data-price="$23.98" value="https://buy.stripe.com/test_bJe8wQ3L4ggHdoVcsldjO0v">2 packs (8 cartridges)</option>
+              <option data-price="$35.97" value="https://buy.stripe.com/test_3cIaEYchAggH98FdwpdjO0w">3 packs (12 cartridges)</option>
+              <option data-price="$47.96" value="https://buy.stripe.com/test_bJedRa6Xg4xZ2Kh4ZTdjO0x">4 packs (16 cartridges)</option>
+            </select>
             <div class="product-price">$11.99</div>
-            <a href="https://buy.stripe.com/test_bJe28s0ySaWn4SpcsldjO07" class="btn btn-primary" target="_blank" rel="noopener">Buy Now</a>
+            <a href="https://buy.stripe.com/test_bJe28s0ySaWn4SpcsldjO07" class="btn btn-primary buy-btn" target="_blank" rel="noopener">Buy Now</a>
           </div>
         </div>
       </div>
@@ -100,8 +107,15 @@
           <h3>EVE 6 refill cartridges x 4</h3>
           <ul><li>4 Refill cartridges</li></ul>
           <div class="card-foot">
+            <label class="opt-label" for="opt-e6">Quantity</label>
+            <select class="opt-select" id="opt-e6">
+              <option data-price="$17.99" value="https://buy.stripe.com/test_aFa6oIepI8Of0C9dwpdjO01" selected>1 pack (4 cartridges)</option>
+              <option data-price="$35.98" value="https://buy.stripe.com/test_8x214odlEggHacJeAtdjO0y">2 packs (8 cartridges)</option>
+              <option data-price="$53.97" value="https://buy.stripe.com/test_3cI9AU0yS5C3bgNdwpdjO0z">3 packs (12 cartridges)</option>
+              <option data-price="$71.96" value="https://buy.stripe.com/test_00wfZi95od4vckR781djO0A">4 packs (16 cartridges)</option>
+            </select>
             <div class="product-price">$17.99</div>
-            <a href="https://buy.stripe.com/test_aFa6oIepI8Of0C9dwpdjO01" class="btn btn-primary" target="_blank" rel="noopener">Buy Now</a>
+            <a href="https://buy.stripe.com/test_aFa6oIepI8Of0C9dwpdjO01" class="btn btn-primary buy-btn" target="_blank" rel="noopener">Buy Now</a>
           </div>
         </div>
       </div>
@@ -176,6 +190,18 @@
     </div>
   </div>
 </footer>
+
+<script>
+// quantity selector: swap the displayed price and the Stripe link together
+document.querySelectorAll('.opt-select').forEach(function (sel) {
+  sel.addEventListener('change', function () {
+    var foot = sel.closest('.card-foot');
+    var opt  = sel.options[sel.selectedIndex];
+    foot.querySelector('.product-price').textContent = opt.dataset.price;
+    foot.querySelector('.buy-btn').href = opt.value;
+  });
+});
+</script>
 
 </body>
 </html>
