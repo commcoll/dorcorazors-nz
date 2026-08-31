@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us – DORCO New Zealand</title>
   <meta name="description" content="The Dorco story – over 60 years of shaving expertise and advanced blade technology.">
+  <link rel="canonical" href="https://dorcorazors.co.nz/about">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DORCO New Zealand">
+  <meta property="og:title" content="About Us – DORCO New Zealand">
+  <meta property="og:description" content="The Dorco story – over 60 years of shaving expertise and advanced blade technology.">
+  <meta property="og:url" content="https://dorcorazors.co.nz/about">
+  <meta property="og:image" content="https://dorcorazors.co.nz/images/homepage-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
 </head>
@@ -13,6 +21,7 @@
 <header>
   <div class="nav-inner">
     <a class="nav-logo" href="/"><img src="images/logo.png" alt="DORCO"></a>
+    <a class="btn-checkout nav-cart nav-cart-mobile" href="cart" aria-label="Basket"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="cart-count" hidden>0</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="this.closest('header').querySelector('.nav-links').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
@@ -123,7 +132,8 @@
 <section class="signup-bar">
   <h2>Sign up to receive special deals on your favourite products:</h2>
   <form class="signup-form" onsubmit="return false;">
-    <input type="email" placeholder="Your email address" required>
+    <label class="visually-hidden" for="signup-email">Email address</label>
+    <input type="email" id="signup-email" name="email" placeholder="Your email address" required>
     <button class="btn btn-green" type="submit">Sign Up</button>
   </form>
 </section>

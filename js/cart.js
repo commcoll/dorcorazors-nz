@@ -188,7 +188,42 @@
     });
   }
 
+  function clearIfOrderComplete() {
+    // /thank-you is only reached from a successful Stripe checkout
+    if (location.pathname.replace(/\/$/, '').endsWith('/thank-you')) {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+    }
+  }
+
+  /* ---- newsletter sign-up ---- */
+  function wireSignup() {
+    [].forEach.call(document.querySelectorAll('.signup-form'), function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input[type=email]');
+        var btn = form.querySelector('button');
+        var status = form.parentNode.querySelector('.form-status') || (function () {
+          var p = document.createElement('p'); p.className = 'form-status';
+          form.parentNode.appendChild(p); return p;
+        })();
+        btn.disabled = true;
+        fetch('/api/subscribe', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value, source: location.pathname })
+        }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            if (res.ok) { status.className = 'form-status ok'; status.textContent = 'Thanks — you are signed up.'; form.reset(); }
+            else { status.className = 'form-status err'; status.textContent = res.d.error || 'Sign-up failed.'; }
+          })
+          .catch(function () { status.className = 'form-status err'; status.textContent = 'Sign-up failed. Please try again.'; })
+          .then(function () { btn.disabled = false; });
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    clearIfOrderComplete();
+    wireSignup();
     paintBadge();
     wireAddButtons();
     renderCart();

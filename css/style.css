@@ -723,3 +723,16 @@ footer {
   font-size: 12px; color: var(--dark);
   margin: 4px 0 12px; text-align: center;
 }
+
+/* basket stays reachable on mobile, outside the collapsing menu */
+.nav-cart-mobile { display: none; margin-left: auto; margin-right: 12px; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.form-status { font-size: 14px; margin-top: 12px; }
+.form-status.err { color: #c0392b; }
+.form-status.ok  { color: #2e7d32; }
+@media (max-width: 900px) {
+  .nav-cart-mobile { display: inline-flex; align-items: center; gap: 6px; }
+}
