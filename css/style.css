@@ -287,6 +287,8 @@ header {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* keeps a lone card (e.g. the single women's razor) from stretching the row */
+  max-width: 380px;
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .product-card:hover {
