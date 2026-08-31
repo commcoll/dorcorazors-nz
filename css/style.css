@@ -712,3 +712,14 @@ footer {
   .cart-remove { grid-column: 3 / 4; }
   .cart-summary { max-width: none; }
 }
+
+/* shipping threshold messaging */
+.ship-free { color: #2e7d32; font-weight: 800; }
+.ship-earned {
+  font-size: 12px; font-weight: 700; color: #2e7d32;
+  margin: 4px 0 12px; text-align: center;
+}
+.ship-progress {
+  font-size: 12px; color: var(--dark);
+  margin: 4px 0 12px; text-align: center;
+}

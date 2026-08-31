@@ -23,7 +23,9 @@
     'c-e3':   { name: 'EVE 3 refill cartridges x 4',        price: 1199,  img: 'images/eve-3-cart-4.jpg' },
     'c-e6':   { name: 'EVE 6 refill cartridges x 4',        price: 1799,  img: 'images/eve-6-cart-4.jpg' }
   };
-  var SHIPPING = 700;
+  var SHIPPING = 700;          // standard tracked courier
+  var SHIPPING_RURAL = 1100;   // rural delivery surcharge, chosen at checkout
+  var FREE_FROM = 3000;        // free standard delivery from $30
 
   function money(c) { return '$' + (c / 100).toFixed(2); }
 
@@ -128,14 +130,26 @@
         '</div>';
     });
 
+    var free = subtotal >= FREE_FROM;
+    var ship = free ? 0 : SHIPPING;
+    var shortfall = FREE_FROM - subtotal;
+
+    var progress = free
+      ? '<p class="ship-earned">✓ Your order qualifies for free standard delivery</p>'
+      : '<p class="ship-progress">Spend ' + money(shortfall) + ' more for free standard delivery</p>';
+
     host.innerHTML =
       '<div class="cart-list">' + rows + '</div>' +
       '<div class="cart-summary">' +
         '<div class="cart-line"><span>Subtotal</span><span>' + money(subtotal) + '</span></div>' +
-        '<div class="cart-line"><span>Shipping</span><span>' + money(SHIPPING) + '</span></div>' +
-        '<div class="cart-line cart-total"><span>Total</span><span>' + money(subtotal + SHIPPING) + '</span></div>' +
+        '<div class="cart-line"><span>Standard delivery</span>' +
+          (free ? '<span class="ship-free">FREE</span>' : '<span>' + money(ship) + '</span>') +
+        '</div>' +
+        '<div class="cart-line cart-total"><span>Total</span><span>' + money(subtotal + ship) + '</span></div>' +
+        progress +
         '<button id="checkout-btn" class="btn btn-primary">Checkout</button>' +
-        '<p class="cart-note">Prices include GST. Delivery within New Zealand.</p>' +
+        '<p class="cart-note">Prices include GST. Rural delivery is ' + money(SHIPPING_RURAL) +
+          ' and can be selected at checkout. Delivery within New Zealand.</p>' +
         '<p class="cart-error" id="cart-error" hidden></p>' +
       '</div>';
 

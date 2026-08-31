@@ -1,27 +1,32 @@
 // Cloudflare Pages Function: creates a Stripe Checkout Session for the whole basket.
-// Prices are resolved server-side from this map — the browser only ever sends ids and
-// quantities, so a tampered cart cannot change what anything costs.
+// Price ids AND amounts live here, server-side. The browser only ever sends ids and
+// quantities, so a tampered basket can change neither the prices charged nor whether
+// the order qualifies for free shipping.
 const CATALOGUE = {
-  'p3':      'price_1UARJ7LgI1sZykgoKmAdV9mQ',
-  'p3-r4':   'price_1UARJ9LgI1sZykgomNf7r1Oc',
-  'p3-r16':  'price_1UARJALgI1sZykgoAaAeTMDB',
-  'p3-r24':  'price_1UARJBLgI1sZykgoeW34nuae',
-  'p4':      'price_1UARJCLgI1sZykgo8D0SvcHj',
-  'p4-r4':   'price_1UARJDLgI1sZykgo0rGKtfXM',
-  'p4-r16':  'price_1UARJELgI1sZykgo6pv4aLr8',
-  'p4-r24':  'price_1UARJFLgI1sZykgo7IRPW6Dh',
-  'p6':      'price_1UARJGLgI1sZykgoRqcGFMd0',
-  'p6-r4':   'price_1UARJHLgI1sZykgoUxZ5hTKJ',
-  'p6-r16':  'price_1UARJILgI1sZykgoY9taVCCm',
-  'p6-r24':  'price_1UARJJLgI1sZykgoesTZlEpb',
-  'eve3':    'price_1UAQHdLgI1sZykgocL1rjB53',
-  'c-p3':    'price_1UAQHdLgI1sZykgo6yxTarxD',
-  'c-p4':    'price_1UAQHdLgI1sZykgohFdVsQr9',
-  'c-p6':    'price_1UAQHdLgI1sZykgoUAEkxQ8j',
-  'c-e3':    'price_1UAQHdLgI1sZykgorROgmsdC',
-  'c-e6':    'price_1UAQHdLgI1sZykgoNblNPAxv'
+  'p3':      { price: 'price_1UARJ7LgI1sZykgoKmAdV9mQ', amount: 799 },
+  'p3-r4':   { price: 'price_1UARJ9LgI1sZykgomNf7r1Oc', amount: 1799 },
+  'p3-r16':  { price: 'price_1UARJALgI1sZykgoAaAeTMDB', amount: 4599 },
+  'p3-r24':  { price: 'price_1UARJBLgI1sZykgoeW34nuae', amount: 6199 },
+  'p4':      { price: 'price_1UARJCLgI1sZykgo8D0SvcHj', amount: 899 },
+  'p4-r4':   { price: 'price_1UARJDLgI1sZykgo0rGKtfXM', amount: 2199 },
+  'p4-r16':  { price: 'price_1UARJELgI1sZykgo6pv4aLr8', amount: 5835 },
+  'p4-r24':  { price: 'price_1UARJFLgI1sZykgo7IRPW6Dh', amount: 7915 },
+  'p6':      { price: 'price_1UARJGLgI1sZykgoRqcGFMd0', amount: 1299 },
+  'p6-r4':   { price: 'price_1UARJHLgI1sZykgoUxZ5hTKJ', amount: 3199 },
+  'p6-r16':  { price: 'price_1UARJILgI1sZykgoY9taVCCm', amount: 8515 },
+  'p6-r24':  { price: 'price_1UARJJLgI1sZykgoesTZlEpb', amount: 11555 },
+  'eve3':    { price: 'price_1UAQHdLgI1sZykgocL1rjB53', amount: 999 },
+  'c-p3':    { price: 'price_1UAQHdLgI1sZykgo6yxTarxD', amount: 999 },
+  'c-p4':    { price: 'price_1UAQHdLgI1sZykgohFdVsQr9', amount: 1299 },
+  'c-p6':    { price: 'price_1UAQHdLgI1sZykgoUAEkxQ8j', amount: 1899 },
+  'c-e3':    { price: 'price_1UAQHdLgI1sZykgorROgmsdC', amount: 1199 },
+  'c-e6':    { price: 'price_1UAQHdLgI1sZykgoNblNPAxv', amount: 1799 }
 };
-const SHIPPING_RATE = 'shr_1UAQFvLgI1sZykgoRLVrcnvt';
+
+const RATE_STANDARD = 'shr_1UAQFvLgI1sZykgoRLVrcnvt'; // Tracked Courier  $7.00
+const RATE_FREE     = 'shr_1UAbl9LgI1sZykgoNruh47o1'; // Free Shipping    $0.00
+const RATE_RURAL    = 'shr_1UAblALgI1sZykgoZmLNSVfe'; // Rural Delivery  $11.00
+const FREE_SHIPPING_FROM = 3000;                      // $30.00 subtotal
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -40,17 +45,24 @@ export async function onRequestPost({ request, env }) {
 
   const params = new URLSearchParams();
   params.set('mode', 'payment');
-  let i = 0;
+
+  let subtotal = 0, i = 0;
   for (const item of items) {
-    const price = CATALOGUE[item && item.id];
-    if (!price) return json({ error: 'Unknown item in basket.' }, 400);
+    const entry = CATALOGUE[item && item.id];
+    if (!entry) return json({ error: 'Unknown item in basket.' }, 400);
     const qty = Math.max(1, Math.min(20, parseInt(item.qty, 10) || 1));
-    params.set(`line_items[${i}][price]`, price);
+    subtotal += entry.amount * qty;
+    params.set(`line_items[${i}][price]`, entry.price);
     params.set(`line_items[${i}][quantity]`, String(qty));
     i++;
   }
+
+  // Standard delivery is free from $30; rural carries its surcharge either way.
+  const standard = subtotal >= FREE_SHIPPING_FROM ? RATE_FREE : RATE_STANDARD;
+  params.set('shipping_options[0][shipping_rate]', standard);
+  params.set('shipping_options[1][shipping_rate]', RATE_RURAL);
+
   params.set('shipping_address_collection[allowed_countries][0]', 'NZ');
-  params.set('shipping_options[0][shipping_rate]', SHIPPING_RATE);
   const origin = new URL(request.url).origin;
   params.set('success_url', `${origin}/thank-you`);
   params.set('cancel_url', `${origin}/cart`);
