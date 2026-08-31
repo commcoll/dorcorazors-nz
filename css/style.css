@@ -162,25 +162,12 @@ header {
 
 /* ─── Hero ─── */
 .hero {
-  position: relative;
   background: var(--green);
   min-height: 420px;
   display: flex;
   align-items: center;
-  overflow: hidden;
-}
-.hero::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: clamp(220px, 24%, 400px);
-  background: var(--white) url('../images/hero-razor.jpg') no-repeat right center / auto 100%;
 }
 .hero-inner {
-  position: relative;
-  z-index: 1;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -573,6 +560,16 @@ footer {
 .gap-8 { gap: 8px; }
 
 /* ─── Responsive ─── */
+/* duo image must shrink below desktop or it covers the button */
+@media (max-width: 1100px) {
+  .duo-panel { padding: 64px 32px 48px; }
+  .duo-img { width: 40%; max-width: 210px; }
+}
+@media (max-width: 860px) {
+  .duo-panel { padding: 56px 20px 40px; }
+  .duo-img { width: 32%; max-width: 150px; }
+}
+
 @media (max-width: 900px) {
   .category-cards { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
@@ -583,11 +580,9 @@ footer {
   .split { grid-template-columns: 1fr; }
   .split.reverse { direction: ltr; }
   .duo { grid-template-columns: 1fr; }
-  .duo-panel { min-height: 360px; padding: 56px 24px 40px; }
-}
-
-@media (max-width: 700px) {
-  .hero::after { display: none; }
+  /* image is bottom-anchored, so reserve a band for it or it covers the button */
+  .duo-panel { min-height: 0; padding: 56px 24px 230px; }
+  .duo-img { width: 60%; max-width: 200px; }
 }
 
 @media (max-width: 768px) {
