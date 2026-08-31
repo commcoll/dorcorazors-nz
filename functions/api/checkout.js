@@ -26,6 +26,7 @@ const CATALOGUE = {
 const RATE_STANDARD = 'shr_1UAQFvLgI1sZykgoRLVrcnvt'; // Tracked Courier  $7.00
 const RATE_FREE     = 'shr_1UAbl9LgI1sZykgoNruh47o1'; // Free Shipping    $0.00
 const RATE_RURAL    = 'shr_1UAblALgI1sZykgoZmLNSVfe'; // Rural Delivery  $11.00
+const RATE_RURAL_RED= 'shr_1UAc2GLgI1sZykgovqjiYkFR'; // Rural Delivery   $5.00 (over threshold)
 const FREE_SHIPPING_FROM = 3000;                      // $30.00 subtotal
 
 const json = (body, status = 200) =>
@@ -57,10 +58,10 @@ export async function onRequestPost({ request, env }) {
     i++;
   }
 
-  // Standard delivery is free from $30; rural carries its surcharge either way.
-  const standard = subtotal >= FREE_SHIPPING_FROM ? RATE_FREE : RATE_STANDARD;
-  params.set('shipping_options[0][shipping_rate]', standard);
-  params.set('shipping_options[1][shipping_rate]', RATE_RURAL);
+  // From $30: standard delivery is free and the rural surcharge drops to $5.
+  const qualifies = subtotal >= FREE_SHIPPING_FROM;
+  params.set('shipping_options[0][shipping_rate]', qualifies ? RATE_FREE : RATE_STANDARD);
+  params.set('shipping_options[1][shipping_rate]', qualifies ? RATE_RURAL_RED : RATE_RURAL);
 
   params.set('shipping_address_collection[allowed_countries][0]', 'NZ');
   const origin = new URL(request.url).origin;

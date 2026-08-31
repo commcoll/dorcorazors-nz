@@ -25,6 +25,7 @@
   };
   var SHIPPING = 700;          // standard tracked courier
   var SHIPPING_RURAL = 1100;   // rural delivery surcharge, chosen at checkout
+  var SHIPPING_RURAL_RED = 500; // rural surcharge once free shipping applies
   var FREE_FROM = 3000;        // free standard delivery from $30
 
   function money(c) { return '$' + (c / 100).toFixed(2); }
@@ -148,7 +149,8 @@
         '<div class="cart-line cart-total"><span>Total</span><span>' + money(subtotal + ship) + '</span></div>' +
         progress +
         '<button id="checkout-btn" class="btn btn-primary">Checkout</button>' +
-        '<p class="cart-note">Prices include GST. Rural delivery is ' + money(SHIPPING_RURAL) +
+        '<p class="cart-note">Prices include GST. Rural delivery is ' +
+          money(free ? SHIPPING_RURAL_RED : SHIPPING_RURAL) +
           ' and can be selected at checkout. Delivery within New Zealand.</p>' +
         '<p class="cart-error" id="cart-error" hidden></p>' +
       '</div>';
