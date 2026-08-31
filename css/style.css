@@ -161,9 +161,12 @@ header {
 .btn-white { background: var(--white); color: var(--black); }
 
 /* ─── Hero ─── */
+/* Matches razorsbydorco.co.uk: image at natural size, right-aligned and
+   vertically centred, green fills the rest. NOT cover — cover rescales the
+   razor and shifts it up. */
 .hero {
-  background: var(--green);
-  min-height: 420px;
+  background: var(--green) url('../images/homepage-banner.jpg') no-repeat 100% 50%;
+  min-height: 518px;
   display: flex;
   align-items: center;
 }
@@ -583,6 +586,16 @@ footer {
   /* image is bottom-anchored, so reserve a band for it or it covers the button */
   .duo-panel { min-height: 0; padding: 56px 24px 230px; }
   .duo-img { width: 60%; max-width: 200px; }
+}
+
+/* The razor panel is a fixed 478px at the right, so the seam walks left as the
+   viewport narrows. Cap the hero text so it never runs onto it. */
+@media (min-width: 769px) {
+  .hero h1, .hero p { max-width: min(600px, calc(100vw - 566px)); }
+}
+/* UK site swings the banner to show green, not the razor, at 768 and below */
+@media (max-width: 768px) {
+  .hero { background-position: 0% 50%; min-height: 420px; }
 }
 
 @media (max-width: 768px) {
