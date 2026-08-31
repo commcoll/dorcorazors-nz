@@ -591,7 +591,8 @@ footer {
 /* The razor panel is a fixed 478px at the right, so the seam walks left as the
    viewport narrows. Cap the hero text so it never runs onto it. */
 @media (min-width: 769px) {
-  .hero h1, .hero p { max-width: min(600px, calc(100vw - 566px)); }
+  .hero h1 { max-width: min(600px, calc(100vw - 566px)); }
+  .hero p  { max-width: min(480px, calc(100vw - 566px)); }
 }
 /* UK site swings the banner to show green, not the razor, at 768 and below */
 @media (max-width: 768px) {
