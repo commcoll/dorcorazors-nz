@@ -162,12 +162,26 @@ header {
 
 /* ─── Hero ─── */
 .hero {
+  position: relative;
   background: var(--green);
   min-height: 420px;
   display: flex;
   align-items: center;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(220px, 24%, 400px);
+  background: var(--white) url('../images/hero-razor.jpg') no-repeat right center / auto 100%;
 }
 .hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 64px 24px;
@@ -570,6 +584,10 @@ footer {
   .split.reverse { direction: ltr; }
   .duo { grid-template-columns: 1fr; }
   .duo-panel { min-height: 360px; padding: 56px 24px 40px; }
+}
+
+@media (max-width: 700px) {
+  .hero::after { display: none; }
 }
 
 @media (max-width: 768px) {
