@@ -524,11 +524,14 @@ footer {
 
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
-  .split { grid-template-columns: 1fr; }
-  .split.reverse { direction: ltr; }
   .category-cards { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .dorco-name-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .split { grid-template-columns: 1fr; }
+  .split.reverse { direction: ltr; }
 }
 
 @media (max-width: 768px) {
