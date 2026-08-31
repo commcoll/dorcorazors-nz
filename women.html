@@ -42,7 +42,7 @@
         </ul>
       </li>
       <li><a href="contact">Contact</a></li>
-      <li><a class="btn-checkout" href="products">Shop Now</a></li>
+      <li><a class="btn-checkout nav-cart" href="cart" aria-label="Basket"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span>Basket</span><span class="cart-count" hidden>0</span></a></li>
     </ul>
   </div>
 </header>
@@ -72,7 +72,7 @@
           </ul>
           <div class="card-foot">
             <div class="product-price">$9.99</div>
-            <a href="https://buy.stripe.com/test_4gM5kEchA4xZgB7gIBdjO00" class="btn btn-primary" target="_blank" rel="noopener">Buy Now</a>
+            <button class="btn btn-primary add-btn" data-id="eve3" type="button">Add to Basket</button>
           </div>
         </div>
       </div>
@@ -91,13 +91,13 @@
           <div class="card-foot">
             <label class="opt-label" for="opt-e3">Quantity</label>
             <select class="opt-select" id="opt-e3">
-              <option data-price="$11.99" value="https://buy.stripe.com/test_bJe28s0ySaWn4SpcsldjO07" selected>1 pack (4 cartridges)</option>
-              <option data-price="$23.98" value="https://buy.stripe.com/test_bJe8wQ3L4ggHdoVcsldjO0v">2 packs (8 cartridges)</option>
-              <option data-price="$35.97" value="https://buy.stripe.com/test_3cIaEYchAggH98FdwpdjO0w">3 packs (12 cartridges)</option>
-              <option data-price="$47.96" value="https://buy.stripe.com/test_bJedRa6Xg4xZ2Kh4ZTdjO0x">4 packs (16 cartridges)</option>
+              <option data-id="c-e3" data-qty="1" data-price="$11.99" selected>1 pack (4 cartridges)</option>
+              <option data-id="c-e3" data-qty="2" data-price="$23.98">2 packs (8 cartridges)</option>
+              <option data-id="c-e3" data-qty="3" data-price="$35.97">3 packs (12 cartridges)</option>
+              <option data-id="c-e3" data-qty="4" data-price="$47.96">4 packs (16 cartridges)</option>
             </select>
             <div class="product-price">$11.99</div>
-            <a href="https://buy.stripe.com/test_bJe28s0ySaWn4SpcsldjO07" class="btn btn-primary buy-btn" target="_blank" rel="noopener">Buy Now</a>
+            <button class="btn btn-primary add-btn" type="button">Add to Basket</button>
           </div>
         </div>
       </div>
@@ -109,13 +109,13 @@
           <div class="card-foot">
             <label class="opt-label" for="opt-e6">Quantity</label>
             <select class="opt-select" id="opt-e6">
-              <option data-price="$17.99" value="https://buy.stripe.com/test_aFa6oIepI8Of0C9dwpdjO01" selected>1 pack (4 cartridges)</option>
-              <option data-price="$35.98" value="https://buy.stripe.com/test_8x214odlEggHacJeAtdjO0y">2 packs (8 cartridges)</option>
-              <option data-price="$53.97" value="https://buy.stripe.com/test_3cI9AU0yS5C3bgNdwpdjO0z">3 packs (12 cartridges)</option>
-              <option data-price="$71.96" value="https://buy.stripe.com/test_00wfZi95od4vckR781djO0A">4 packs (16 cartridges)</option>
+              <option data-id="c-e6" data-qty="1" data-price="$17.99" selected>1 pack (4 cartridges)</option>
+              <option data-id="c-e6" data-qty="2" data-price="$35.98">2 packs (8 cartridges)</option>
+              <option data-id="c-e6" data-qty="3" data-price="$53.97">3 packs (12 cartridges)</option>
+              <option data-id="c-e6" data-qty="4" data-price="$71.96">4 packs (16 cartridges)</option>
             </select>
             <div class="product-price">$17.99</div>
-            <a href="https://buy.stripe.com/test_aFa6oIepI8Of0C9dwpdjO01" class="btn btn-primary buy-btn" target="_blank" rel="noopener">Buy Now</a>
+            <button class="btn btn-primary add-btn" type="button">Add to Basket</button>
           </div>
         </div>
       </div>
@@ -191,17 +191,7 @@
   </div>
 </footer>
 
-<script>
-// quantity selector: swap the displayed price and the Stripe link together
-document.querySelectorAll('.opt-select').forEach(function (sel) {
-  sel.addEventListener('change', function () {
-    var foot = sel.closest('.card-foot');
-    var opt  = sel.options[sel.selectedIndex];
-    foot.querySelector('.product-price').textContent = opt.dataset.price;
-    foot.querySelector('.buy-btn').href = opt.value;
-  });
-});
-</script>
+<script src="js/cart.js"></script>
 
 </body>
 </html>

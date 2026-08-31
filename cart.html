@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products – DORCO New Zealand</title>
-  <meta name="description" content="Browse all DORCO razor systems and cartridges available in New Zealand. Men's and women's ranges.">
+  <title>Your Basket – DORCO New Zealand</title>
+  <meta name="description" content="Frequently asked questions about DORCO razors, orders, delivery, and returns in New Zealand.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
 </head>
@@ -47,58 +47,17 @@
   </div>
 </header>
 
-<section class="page-hero">
+<section class="page-hero" style="background: var(--dark); background-image: linear-gradient(135deg, #4e5768 0%, #2a3040 100%);">
   <div class="page-hero-inner">
-    <h1>Products</h1>
-    <p>Advanced shaving technology for every skin type and style.</p>
+    <h1>Your Basket</h1>
+    <p>Review your order before checkout</p>
   </div>
 </section>
 
 <section class="section">
   <div class="section-inner">
-    <h2>Choose your range</h2>
-    <p>All our razors use advanced technology to get closer to your smartest shave. Our common docking system means any refill cartridge fits any handle.</p>
-
-    <div class="category-cards">
-      <div class="category-card">
-        <img src="images/banner-men.jpg" alt="Men's Razors">
-        <div class="category-card-content">
-          <h2>Men</h2>
-          <p>Get closer to your smartest shave. Take your pick of our razor selection and innovative blades.</p>
-          <a href="men" class="btn btn-white">Learn more</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="images/banner-women.jpg" alt="Women's Razors">
-        <div class="category-card-content">
-          <h2>Women</h2>
-          <p>Discover your perfect razor, designed to hug your curves and care for your skin.</p>
-          <a href="women" class="btn btn-white">Learn more</a>
-        </div>
-      </div>
-    </div>
+    <div id="cart-root"><p class="cart-empty">Loading…</p></div>
   </div>
-</section>
-
-<section class="section bg-light">
-  <div class="section-inner text-center">
-    <h2>Don't just take our word for it</h2>
-    <p style="margin:12px auto 0; max-width:600px;">How good are our razors? So good! Just ask these verified news organisations.</p>
-    <div class="press-logos">
-      <img src="images/press/press-logo1.jpg" alt="Press"><img src="images/press/press-logo2.jpg" alt="Press">
-      <img src="images/press/press-logo3.jpg" alt="Press"><img src="images/press/press-logo4.jpg" alt="Press">
-      <img src="images/press/press-logo5.jpg" alt="Press"><img src="images/press/press-logo6.jpg" alt="Press">
-      <img src="images/press/press-logo7b.jpg" alt="Press"><img src="images/press/press-logo8.jpg" alt="Press">
-    </div>
-  </div>
-</section>
-
-<section class="signup-bar">
-  <h2>Sign up to receive special deals on your favourite products:</h2>
-  <form class="signup-form" onsubmit="return false;">
-    <input type="email" placeholder="Your email address" required>
-    <button class="btn btn-green" type="submit">Sign Up</button>
-  </form>
 </section>
 
 <footer>
@@ -148,6 +107,13 @@
     </div>
   </div>
 </footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+</script>
 
 <script src="js/cart.js"></script>
 
