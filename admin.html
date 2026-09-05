@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin – DORCO New Zealand</title>
+  <meta name="description" content="Frequently asked questions about DORCO razors, orders, delivery, and returns in New Zealand.">
+  <link rel="canonical" href="https://dorcorazors.co.nz/faq">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DORCO New Zealand">
+  <meta property="og:title" content="FAQs – DORCO New Zealand">
+  <meta property="og:description" content="Frequently asked questions about DORCO razors, orders, delivery, and returns in New Zealand.">
+  <meta property="og:url" content="https://dorcorazors.co.nz/faq">
+  <meta property="og:image" content="https://dorcorazors.co.nz/images/homepage-banner.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="images/logo.png" alt="DORCO"></a>
+    <a class="btn-checkout nav-cart nav-cart-mobile" href="cart" aria-label="Basket"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="cart-count" hidden>0</span></a>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.closest('header').querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li class="dropdown">
+        <a href="products">Products</a>
+        <ul class="dropdown-menu">
+          <li class="sub-dropdown"><a href="men">Men ›</a>
+            <ul class="sub-menu">
+              <li><a href="men#systems">Razor Systems</a></li>
+              <li><a href="men#cartridges">Razor Cartridges</a></li>
+            </ul>
+          </li>
+          <li class="sub-dropdown"><a href="women">Women ›</a>
+            <ul class="sub-menu">
+              <li><a href="women#systems">Razor Systems</a></li>
+              <li><a href="women#cartridges">Razor Cartridges</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="about">About Us</a>
+        <ul class="dropdown-menu">
+          <li><a href="technology">Our Technology</a></li>
+          <li><a href="contact">Press Enquiries</a></li>
+        </ul>
+      </li>
+      <li><a href="contact">Contact</a></li>
+      <li><a class="btn-checkout nav-cart" href="cart" aria-label="Basket"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span>Basket</span><span class="cart-count" hidden>0</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="page-hero" style="background: var(--dark); background-image: linear-gradient(135deg, #4e5768 0%, #2a3040 100%);">
+  <div class="page-hero-inner">
+    <h1>Admin</h1>
+    <p id="admin-sub">Sales, customers and enquiries</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div id="login-box" style="max-width:360px;">
+      <label class="opt-label" for="pw">Password</label>
+      <input class="opt-select" type="password" id="pw" autocomplete="current-password">
+      <button id="login-btn" class="btn btn-primary" style="width:100%;margin-top:12px;">Sign in</button>
+      <p id="login-err" class="form-status err" hidden></p>
+    </div>
+    <div id="panel" hidden></div>
+  </div>
+</section>
+
+<script src="js/admin.js"></script>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="footer-logo" src="images/logo.png" alt="DORCO">
+        <p>Dorco® New Zealand is the exclusive NZ distributor of Dorco shaving products.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/DorcoRazorsNZ" aria-label="Facebook">f</a>
+          <a href="https://www.instagram.com/dorconz/" aria-label="Instagram">&#9641;</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get Closer</h4>
+        <ul>
+          <li><a href="men">For Men</a></li>
+          <li><a href="women">For Women</a></li>
+          <li><a href="about">What's a Dorco</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Here to Help</h4>
+        <ul>
+          <li><a href="contact">Contact Us</a></li>
+          <li><a href="faq">FAQs</a></li>
+          <li><a href="contact">Press Enquiries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about">About Us</a></li>
+          <li><a href="technology">Our Technology</a></li>
+        </ul>
+        <h4 style="margin-top:20px;">Legal</h4>
+        <ul>
+          <li><a href="privacy">Privacy Policy</a></li>
+          <li><a href="terms">Terms &amp; Conditions</a></li>
+          <li><a href="return-policy">Return Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Copyright &copy; 2026 DORCO NZ All Rights Reserved</span>
+      <span>Dorco® New Zealand is the exclusive NZ distributor of Dorco shaving products.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+</script>
+
+<script src="js/cart.js"></script>
+
+</body>
+</html>

@@ -736,3 +736,13 @@ footer {
 @media (max-width: 900px) {
   .nav-cart-mobile { display: inline-flex; align-items: center; gap: 6px; }
 }
+
+/* ─── Admin ─── */
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 8px; }
+.admin-stat { padding: 18px; background: var(--light-bg); border-radius: 8px; }
+.admin-stat-v { font-size: 26px; font-weight: 800; color: var(--black); line-height: 1.1; }
+.admin-stat-l { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--steel); margin-top: 4px; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.admin-table th { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--steel); padding: 8px 10px; border-bottom: 1px solid #e2e2e2; white-space: nowrap; }
+.admin-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+.admin-table tr:hover td { background: var(--light-bg); }

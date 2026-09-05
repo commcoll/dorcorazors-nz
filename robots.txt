@@ -3,5 +3,6 @@ Allow: /
 Disallow: /cart
 Disallow: /thank-you
 Disallow: /api/
+Disallow: /admin
 
 Sitemap: https://dorcorazors.co.nz/sitemap.xml
