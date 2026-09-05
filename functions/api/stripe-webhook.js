@@ -1,7 +1,7 @@
 // Stripe -> order record in D1 + notification email to the shop owner.
 // Signature is verified before anything is trusted.
 const NOTIFY_TO   = 'chris@dorcorazors.co.nz';
-const NOTIFY_FROM = 'orders@dorcorazors.co.nz';
+const NOTIFY_FROM = 'office@dorcorazors.co.nz';
 
 const enc = new TextEncoder();
 const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
