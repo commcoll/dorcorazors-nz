@@ -46,7 +46,17 @@ export async function onRequestPost({ request, env }) {
   const email = (s.customer_details || {}).email || '';
   const when = new Date((s.created || Date.now() / 1000) * 1000).toISOString();
 
+  let orderId = 0;
   if (env.DB) {
+    try {
+      const seen = await env.DB.prepare('SELECT id FROM orders WHERE external_ref=?').bind(s.id).first();
+      if (seen) return new Response('duplicate', { status: 200 });      // webhook retries
+      const row = await env.DB.prepare('SELECT COALESCE(MAX(id),0)+1 AS next FROM orders').first();
+      orderId = (row && row.next) || 1;
+    } catch (e) {}
+  }
+
+  if (env.DB && orderId) {
     try {
       await env.DB.prepare(
         `INSERT OR REPLACE INTO orders
@@ -55,7 +65,7 @@ export async function onRequestPost({ request, env }) {
           ship_name, ship_line1, ship_line2, ship_state, ship_country, phone, fulfilled)
          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)`
       ).bind(
-        Math.floor(Date.now() / 1000), 'stripe', s.id, 'completed', when, email,
+        orderId, 'stripe', s.id, 'completed', when, email,
         (s.currency || 'nzd').toUpperCase(),
         (s.amount_subtotal || 0) / 100,
         ((s.total_details || {}).amount_shipping || 0) / 100,
@@ -68,7 +78,7 @@ export async function onRequestPost({ request, env }) {
       for (const li of items) {
         await env.DB.prepare(
           'INSERT INTO order_items (order_id, name, sku, quantity, total) VALUES (?,?,?,?,?)'
-        ).bind(Math.floor(Date.now() / 1000), li.description || '', '',
+        ).bind(orderId, li.description || '', '',
                li.quantity || 1, (li.amount_total || 0) / 100).run();
       }
     } catch (e) {}
