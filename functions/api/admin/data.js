@@ -7,7 +7,7 @@ export async function onRequestGet({ request, env }) {
 
   const q = async (sql, ...a) => (await env.DB.prepare(sql).bind(...a).all()).results || [];
   try {
-    const [summary, byYear, recent, top, customers, enquiries, subs, queue, qitems] = await Promise.all([
+    const [summary, byYear, recent, top, customers, enquiries, subs, subList, queue, qitems] = await Promise.all([
       q(`SELECT COUNT(*) orders, ROUND(SUM(total),2) revenue,
                 MIN(date_created) first, MAX(date_created) last
          FROM orders WHERE status IN ('completed','processing')`),
@@ -25,6 +25,7 @@ export async function onRequestGet({ request, env }) {
       q(`SELECT id, created, first_name, last_name, email, subject, message, handled
          FROM enquiries ORDER BY created DESC LIMIT 50`),
       q(`SELECT COUNT(*) n FROM subscribers WHERE unsubscribed=0`),
+      q(`SELECT email, created, source FROM subscribers WHERE unsubscribed=0 ORDER BY created DESC`),
       q(`SELECT id, date_created, email, phone, total, shipping_method,
                 ship_name, ship_line1, ship_line2, city, ship_state, postcode, ship_country
          FROM orders
@@ -38,7 +39,7 @@ export async function onRequestGet({ request, env }) {
     for (const it of qitems) (byOrder[it.order_id] = byOrder[it.order_id] || []).push(it);
     for (const o of queue) o.items = byOrder[o.id] || [];
     return json({ summary: summary[0]||{}, byYear, recent, top, customers, enquiries,
-                  subscribers: (subs[0]||{}).n || 0, queue });
+                  subscribers: (subs[0]||{}).n || 0, subList, queue });
   } catch (e) {
     return json({error:'Query failed.'}, 500);
   }

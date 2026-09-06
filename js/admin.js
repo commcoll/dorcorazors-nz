@@ -103,6 +103,11 @@
                 '<span title="' + esc(r.message) + '">' + esc(String(r.message || '').slice(0, 80)) + '</span>'];
       });
 
+    html += '<h2 style="font-size:20px;margin:28px 0 12px;">Newsletter subscribers</h2>' +
+      table(['Email', 'Signed up', 'From'], d.subList || [], function (r) {
+        return [esc(r.email), esc(date(r.created)), esc(r.source)];
+      });
+
     html += '<div style="margin:32px 0 8px;display:flex;gap:12px;flex-wrap:wrap;">' +
       '<button id="dl-subs" class="btn btn-outline" style="width:auto;">Download subscribers CSV</button>' +
       '<button id="logout" class="btn btn-primary" style="width:auto;">Sign out</button></div>';
