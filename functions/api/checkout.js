@@ -3,30 +3,30 @@
 // quantities, so a tampered basket can change neither the prices charged nor whether
 // the order qualifies for free shipping.
 const CATALOGUE = {
-  'p3':      { price: 'price_1UARJ7LgI1sZykgoKmAdV9mQ', amount: 799 },
-  'p3-r4':   { price: 'price_1UARJ9LgI1sZykgomNf7r1Oc', amount: 1799 },
-  'p3-r16':  { price: 'price_1UARJALgI1sZykgoAaAeTMDB', amount: 4599 },
-  'p3-r24':  { price: 'price_1UARJBLgI1sZykgoeW34nuae', amount: 6199 },
-  'p4':      { price: 'price_1UARJCLgI1sZykgo8D0SvcHj', amount: 899 },
-  'p4-r4':   { price: 'price_1UARJDLgI1sZykgo0rGKtfXM', amount: 2199 },
-  'p4-r16':  { price: 'price_1UARJELgI1sZykgo6pv4aLr8', amount: 5835 },
-  'p4-r24':  { price: 'price_1UARJFLgI1sZykgo7IRPW6Dh', amount: 7915 },
-  'p6':      { price: 'price_1UARJGLgI1sZykgoRqcGFMd0', amount: 1299 },
-  'p6-r4':   { price: 'price_1UARJHLgI1sZykgoUxZ5hTKJ', amount: 3199 },
-  'p6-r16':  { price: 'price_1UARJILgI1sZykgoY9taVCCm', amount: 8515 },
-  'p6-r24':  { price: 'price_1UARJJLgI1sZykgoesTZlEpb', amount: 11555 },
-  'eve3':    { price: 'price_1UAQHdLgI1sZykgocL1rjB53', amount: 999 },
-  'c-p3':    { price: 'price_1UAQHdLgI1sZykgo6yxTarxD', amount: 999 },
-  'c-p4':    { price: 'price_1UAQHdLgI1sZykgohFdVsQr9', amount: 1299 },
-  'c-p6':    { price: 'price_1UAQHdLgI1sZykgoUAEkxQ8j', amount: 1899 },
-  'c-e3':    { price: 'price_1UAQHdLgI1sZykgorROgmsdC', amount: 1199 },
-  'c-e6':    { price: 'price_1UAQHdLgI1sZykgoNblNPAxv', amount: 1799 }
+  'p3':      { price: 'price_1UCTW0LgI1sZykgobehb8smg', amount: 799 },
+  'p3-r4':   { price: 'price_1UCTW1LgI1sZykgoxJUC1leb', amount: 1799 },
+  'p3-r16':  { price: 'price_1UCTW2LgI1sZykgo652JBPvF', amount: 4599 },
+  'p3-r24':  { price: 'price_1UCTW3LgI1sZykgof3sA7bFk', amount: 6199 },
+  'p4':      { price: 'price_1UCTW3LgI1sZykgoL5nTdN9u', amount: 899 },
+  'p4-r4':   { price: 'price_1UCTW4LgI1sZykgocqUwNdRI', amount: 2199 },
+  'p4-r16':  { price: 'price_1UCTW4LgI1sZykgoLy9wU7Bx', amount: 5835 },
+  'p4-r24':  { price: 'price_1UCTW5LgI1sZykgoFeI7N9vx', amount: 7915 },
+  'p6':      { price: 'price_1UCTW5LgI1sZykgo2yh8UISE', amount: 1299 },
+  'p6-r4':   { price: 'price_1UCTW6LgI1sZykgoka56oO15', amount: 3199 },
+  'p6-r16':  { price: 'price_1UCTW7LgI1sZykgoDXnxeum4', amount: 8515 },
+  'p6-r24':  { price: 'price_1UCTW7LgI1sZykgo7lDOTWIw', amount: 11555 },
+  'eve3':    { price: 'price_1UCTW8LgI1sZykgojDxeGaYm', amount: 999 },
+  'c-p3':    { price: 'price_1UCTW8LgI1sZykgohhaHeHBg', amount: 999 },
+  'c-p4':    { price: 'price_1UCTW9LgI1sZykgoFyHF2kk9', amount: 1299 },
+  'c-p6':    { price: 'price_1UCTWALgI1sZykgoQocMiYL6', amount: 1899 },
+  'c-e3':    { price: 'price_1UCTWALgI1sZykgorDizW8TY', amount: 1199 },
+  'c-e6':    { price: 'price_1UCTWBLgI1sZykgoTRjZGtlF', amount: 1799 }
 };
 
-const RATE_STANDARD = 'shr_1UAQFvLgI1sZykgoRLVrcnvt'; // Tracked Courier  $7.00
-const RATE_FREE     = 'shr_1UAbl9LgI1sZykgoNruh47o1'; // Free Shipping    $0.00
-const RATE_RURAL    = 'shr_1UAblALgI1sZykgoZmLNSVfe'; // Rural Delivery  $11.00
-const RATE_RURAL_RED= 'shr_1UAc2GLgI1sZykgovqjiYkFR'; // Rural Delivery   $5.00 (over threshold)
+const RATE_STANDARD = 'shr_1UCTWBLgI1sZykgo49hFRftZ'; // Tracked Courier  $7.00
+const RATE_FREE     = 'shr_1UCTWCLgI1sZykgonqfRLrVy'; // Free Shipping    $0.00
+const RATE_RURAL    = 'shr_1UCTWCLgI1sZykgoZTAdaqpX'; // Rural Delivery  $11.00
+const RATE_RURAL_RED= 'shr_1UCTWDLgI1sZykgodJMgVXKf'; // Rural Delivery   $5.00 (over threshold)
 const FREE_SHIPPING_FROM = 3000;                      // $30.00 subtotal
 
 const json = (body, status = 200) =>
