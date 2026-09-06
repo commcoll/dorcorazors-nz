@@ -20,7 +20,6 @@ const CATALOGUE = {
   'c-p4':    { price: 'price_1UCTW9LgI1sZykgoFyHF2kk9', amount: 1299 },
   'c-p6':    { price: 'price_1UCTWALgI1sZykgoQocMiYL6', amount: 1899 },
   'c-e3':    { price: 'price_1UCTWALgI1sZykgorDizW8TY', amount: 1199 },
-  'test':    { price: 'price_1UCTcDLgI1sZykgoyhsZPYss', amount: 50 },
   'c-e6':    { price: 'price_1UCTWBLgI1sZykgoTRjZGtlF', amount: 1799 }
 };
 
@@ -59,16 +58,10 @@ export async function onRequestPost({ request, env }) {
     i++;
   }
 
-  // The 'test' item ships free on its own — it isn't a real product.
-  const testOnly = items.every(it => it && it.id === 'test');
-  if (testOnly) {
-    params.set('shipping_options[0][shipping_rate]', RATE_FREE);
-  } else {
-    // From $30: standard delivery is free and the rural surcharge drops to $5.
-    const qualifies = subtotal >= FREE_SHIPPING_FROM;
-    params.set('shipping_options[0][shipping_rate]', qualifies ? RATE_FREE : RATE_STANDARD);
-    params.set('shipping_options[1][shipping_rate]', qualifies ? RATE_RURAL_RED : RATE_RURAL);
-  }
+  // From $30: standard delivery is free and the rural surcharge drops to $5.
+  const qualifies = subtotal >= FREE_SHIPPING_FROM;
+  params.set('shipping_options[0][shipping_rate]', qualifies ? RATE_FREE : RATE_STANDARD);
+  params.set('shipping_options[1][shipping_rate]', qualifies ? RATE_RURAL_RED : RATE_RURAL);
 
   params.set('shipping_address_collection[allowed_countries][0]', 'NZ');
   const origin = new URL(request.url).origin;

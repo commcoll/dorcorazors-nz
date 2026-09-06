@@ -21,8 +21,7 @@
     'c-p4':   { name: 'PACE 4 PRO refill cartridges x 4',   price: 1299,  img: 'images/pace-4-pro-cart-4.jpg' },
     'c-p6':   { name: 'PACE 6 PRO refill cartridges x 4',   price: 1899,  img: 'images/pace-6-pro-cart-4.jpg' },
     'c-e3':   { name: 'EVE 3 refill cartridges x 4',        price: 1199,  img: 'images/eve-3-cart-4.jpg' },
-    'c-e6':   { name: 'EVE 6 refill cartridges x 4',        price: 1799,  img: 'images/eve-6-cart-4.jpg' },
-    'test':   { name: 'Test',                              price: 50,    img: 'images/test-item.jpg' }
+    'c-e6':   { name: 'EVE 6 refill cartridges x 4',        price: 1799,  img: 'images/eve-6-cart-4.jpg' }
   };
   var SHIPPING = 700;          // standard tracked courier
   var SHIPPING_RURAL = 1100;   // rural delivery surcharge, chosen at checkout
@@ -132,13 +131,11 @@
         '</div>';
     });
 
-    var testOnly = ids.every(function (id) { return id === 'test'; });
-    var free = testOnly || subtotal >= FREE_FROM;
+    var free = subtotal >= FREE_FROM;
     var ship = free ? 0 : SHIPPING;
     var shortfall = FREE_FROM - subtotal;
 
-    var progress = testOnly ? ''
-      : free
+    var progress = free
       ? '<p class="ship-earned">✓ Your order qualifies for free standard delivery</p>'
       : '<p class="ship-progress">Spend ' + money(shortfall) + ' more for free standard delivery</p>';
 
