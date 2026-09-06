@@ -59,10 +59,16 @@ export async function onRequestPost({ request, env }) {
     i++;
   }
 
-  // From $30: standard delivery is free and the rural surcharge drops to $5.
-  const qualifies = subtotal >= FREE_SHIPPING_FROM;
-  params.set('shipping_options[0][shipping_rate]', qualifies ? RATE_FREE : RATE_STANDARD);
-  params.set('shipping_options[1][shipping_rate]', qualifies ? RATE_RURAL_RED : RATE_RURAL);
+  // The 'test' item ships free on its own — it isn't a real product.
+  const testOnly = items.every(it => it && it.id === 'test');
+  if (testOnly) {
+    params.set('shipping_options[0][shipping_rate]', RATE_FREE);
+  } else {
+    // From $30: standard delivery is free and the rural surcharge drops to $5.
+    const qualifies = subtotal >= FREE_SHIPPING_FROM;
+    params.set('shipping_options[0][shipping_rate]', qualifies ? RATE_FREE : RATE_STANDARD);
+    params.set('shipping_options[1][shipping_rate]', qualifies ? RATE_RURAL_RED : RATE_RURAL);
+  }
 
   params.set('shipping_address_collection[allowed_countries][0]', 'NZ');
   const origin = new URL(request.url).origin;
