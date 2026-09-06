@@ -104,7 +104,7 @@
       });
 
     html += '<div style="margin:32px 0 8px;display:flex;gap:12px;flex-wrap:wrap;">' +
-      '<a class="btn btn-outline" href="/api/admin/subscribers" style="width:auto;display:inline-block;">Download subscribers CSV</a>' +
+      '<button id="dl-subs" class="btn btn-outline" style="width:auto;">Download subscribers CSV</button>' +
       '<button id="logout" class="btn btn-primary" style="width:auto;">Sign out</button></div>';
 
     var panel = document.getElementById('panel');
@@ -124,6 +124,21 @@
           else { btn.disabled = false; btn.textContent = 'Mark shipped'; }
         }).catch(function () { btn.disabled = false; btn.textContent = 'Mark shipped'; });
       });
+    });
+
+    document.getElementById('dl-subs').addEventListener('click', function () {
+      var btn = this; btn.disabled = true; btn.textContent = 'Preparing…';
+      fetch('/api/admin/subscribers', { credentials: 'same-origin' })
+        .then(function (r) { if (!r.ok) throw new Error(); return r.blob(); })
+        .then(function (b) {
+          var url = URL.createObjectURL(b);
+          var a = document.createElement('a');
+          a.href = url; a.download = 'subscribers.csv';
+          document.body.appendChild(a); a.click();
+          setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+          btn.disabled = false; btn.textContent = 'Download subscribers CSV';
+        })
+        .catch(function () { btn.disabled = false; btn.textContent = 'Download failed — retry'; });
     });
 
     document.getElementById('logout').addEventListener('click', function () {
