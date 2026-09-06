@@ -18,6 +18,39 @@
       }).join('') + '</tbody></table></div>';
   }
 
+
+  function addr(o) {
+    return [o.ship_name, o.ship_line1, o.ship_line2,
+            [o.city, o.ship_state, o.postcode].filter(Boolean).join(' '),
+            o.ship_country].filter(function (x) { return x; }).map(esc).join('<br>');
+  }
+
+  function fulfilSection(queue) {
+    if (!queue || !queue.length)
+      return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship</h2>' +
+             '<p class="cart-empty">Nothing awaiting shipment.</p>';
+    return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship (' + queue.length + ')</h2>' +
+      queue.map(function (o) {
+        var items = (o.items || []).map(function (i) {
+          return '<li>' + i.quantity + ' &times; ' + esc(i.name) + '</li>';
+        }).join('');
+        return '<div class="ship-card" data-id="' + o.id + '">' +
+          '<div class="ship-grid">' +
+            '<div><div class="admin-stat-l">Ship to</div><p>' + addr(o) + '</p>' +
+              (o.phone ? '<p style="font-size:12px;color:var(--steel);">' + esc(o.phone) + '</p>' : '') +
+              '<p style="font-size:12px;color:var(--steel);">' + esc(o.email) + '</p></div>' +
+            '<div><div class="admin-stat-l">Items</div><ul style="font-size:13px;margin:4px 0 0 16px;">' + items + '</ul></div>' +
+            '<div><div class="admin-stat-l">Order</div>' +
+              '<p style="font-size:13px;">' + esc(date(o.date_created)) + '<br>' + money(o.total) +
+              '<br><span style="color:var(--steel);">' + esc(o.shipping_method || '') + '</span></p></div>' +
+          '</div>' +
+          '<div class="ship-actions">' +
+            '<input class="opt-select track" placeholder="Tracking number (optional)" style="max-width:280px;">' +
+            '<button class="btn btn-primary mark" style="width:auto;">Mark shipped</button>' +
+          '</div></div>';
+      }).join('');
+  }
+
   function render(d) {
     var s = d.summary || {};
     var stat = function (label, val) {
@@ -38,15 +71,18 @@
     html += '<p style="font-size:13px;color:var(--steel);margin:4px 0 28px;">' +
             esc(date(s.first)) + ' &ndash; ' + esc(date(s.last)) + '</p>';
 
+    html += fulfilSection(d.queue);
+
     html += '<h2 style="font-size:20px;margin:28px 0 12px;">By year</h2>' +
       table(['Year', 'Orders', 'Revenue'], d.byYear || [], function (r) {
         return [esc(r.yr), r.n, money(r.rev)];
       });
 
     html += '<h2 style="font-size:20px;margin:28px 0 12px;">Recent orders</h2>' +
-      table(['Date', 'Source', 'Email', 'City', 'Total', 'Status'], d.recent || [], function (r) {
+      table(['Date', 'Source', 'Email', 'City', 'Total', 'Status', 'Fulfilment'], d.recent || [], function (r) {
         return [esc(date(r.date_created)), esc(r.source), esc(r.email), esc(r.city),
-                money(r.total), esc(r.status)];
+                money(r.total), esc(r.status),
+                r.source === 'stripe' ? (r.fulfilled ? 'Shipped' : '<b>To ship</b>') : '&mdash;'];
       });
 
     html += '<h2 style="font-size:20px;margin:28px 0 12px;">Best sellers</h2>' +
@@ -75,6 +111,21 @@
     panel.innerHTML = html;
     panel.hidden = false;
     document.getElementById('login-box').hidden = true;
+    [].forEach.call(panel.querySelectorAll('.ship-card'), function (card) {
+      card.querySelector('.mark').addEventListener('click', function () {
+        var btn = this; btn.disabled = true; btn.textContent = 'Saving…';
+        fetch('/api/admin/fulfil', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ id: Number(card.dataset.id), fulfilled: true,
+                                 tracking: card.querySelector('.track').value })
+        }).then(function (r) {
+          if (r.ok) { card.style.opacity = '.4'; btn.textContent = 'Shipped ✓'; }
+          else { btn.disabled = false; btn.textContent = 'Mark shipped'; }
+        }).catch(function () { btn.disabled = false; btn.textContent = 'Mark shipped'; });
+      });
+    });
+
     document.getElementById('logout').addEventListener('click', function () {
       fetch('/api/admin/logout', { method: 'POST' }).then(function () { location.reload(); });
     });

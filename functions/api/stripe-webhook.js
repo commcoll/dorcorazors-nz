@@ -51,15 +51,19 @@ export async function onRequestPost({ request, env }) {
       await env.DB.prepare(
         `INSERT OR REPLACE INTO orders
          (id, source, external_ref, status, date_created, email, currency,
-          subtotal, shipping_total, shipping_method, total, city, postcode)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
+          subtotal, shipping_total, shipping_method, total, city, postcode,
+          ship_name, ship_line1, ship_line2, ship_state, ship_country, phone, fulfilled)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)`
       ).bind(
         Math.floor(Date.now() / 1000), 'stripe', s.id, 'completed', when, email,
         (s.currency || 'nzd').toUpperCase(),
         (s.amount_subtotal || 0) / 100,
         ((s.total_details || {}).amount_shipping || 0) / 100,
-        (s.shipping_cost && s.shipping_cost.shipping_rate) ? 'stripe' : '',
-        (s.amount_total || 0) / 100, addr.city || '', addr.postal_code || ''
+        ((s.total_details || {}).amount_shipping ? 'Courier' : 'Free'),
+        (s.amount_total || 0) / 100, addr.city || '', addr.postal_code || '',
+        ship.name || '', addr.line1 || '', addr.line2 || '',
+        addr.state || '', addr.country || '',
+        (s.customer_details || {}).phone || ''
       ).run();
       for (const li of items) {
         await env.DB.prepare(
