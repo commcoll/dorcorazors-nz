@@ -20,7 +20,7 @@ const CATALOGUE = {
   'c-p4':    { price: 'price_1UCTW9LgI1sZykgoFyHF2kk9', amount: 1299 },
   'c-p6':    { price: 'price_1UCTWALgI1sZykgoQocMiYL6', amount: 1899 },
   'c-e3':    { price: 'price_1UCTWALgI1sZykgorDizW8TY', amount: 1199 },
-  'test':    { price: 'price_1UCTaQLgI1sZykgoJy6MKqJa', amount: 1 },
+  'test':    { price: 'price_1UCTcDLgI1sZykgoyhsZPYss', amount: 50 },
   'c-e6':    { price: 'price_1UCTWBLgI1sZykgoTRjZGtlF', amount: 1799 }
 };
 
