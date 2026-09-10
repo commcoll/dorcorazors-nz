@@ -29,7 +29,8 @@
     if (!queue || !queue.length)
       return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship</h2>' +
              '<p class="cart-empty">Nothing awaiting shipment.</p>';
-    return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship (' + queue.length + ')</h2>' +
+    return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship (' + queue.length + ')' +
+      ' <button id="slip-all" class="btn btn-outline" style="width:auto;font-size:11px;padding:8px 14px;margin-left:8px;vertical-align:middle;">Print all slips</button></h2>' +
       queue.map(function (o) {
         var items = (o.items || []).map(function (i) {
           return '<li>' + i.quantity + ' &times; ' + esc(i.name) + '</li>';
@@ -46,6 +47,7 @@
           '</div>' +
           '<div class="ship-actions">' +
             '<input class="opt-select track" placeholder="Tracking number (optional)" style="max-width:280px;">' +
+            '<button class="btn btn-outline slip" style="width:auto;">Packing slip</button>' +
             '<button class="btn btn-primary mark" style="width:auto;">Mark shipped</button>' +
           '</div></div>';
       }).join('');
@@ -117,6 +119,9 @@
     panel.hidden = false;
     document.getElementById('login-box').hidden = true;
     [].forEach.call(panel.querySelectorAll('.ship-card'), function (card) {
+      card.querySelector('.slip').addEventListener('click', function () {
+        window.open('/api/admin/packing-slip?id=' + encodeURIComponent(card.dataset.id), '_blank');
+      });
       card.querySelector('.mark').addEventListener('click', function () {
         var btn = this; btn.disabled = true; btn.textContent = 'Saving…';
         fetch('/api/admin/fulfil', {
@@ -129,6 +134,12 @@
           else { btn.disabled = false; btn.textContent = 'Mark shipped'; }
         }).catch(function () { btn.disabled = false; btn.textContent = 'Mark shipped'; });
       });
+    });
+
+    var slipAll = document.getElementById('slip-all');
+    if (slipAll) slipAll.addEventListener('click', function () {
+      var ids = [].map.call(panel.querySelectorAll('.ship-card'), function (c) { return c.dataset.id; });
+      if (ids.length) window.open('/api/admin/packing-slip?id=' + encodeURIComponent(ids.join(',')), '_blank');
     });
 
     document.getElementById('dl-subs').addEventListener('click', function () {

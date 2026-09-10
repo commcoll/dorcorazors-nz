@@ -4,5 +4,6 @@ Disallow: /cart
 Disallow: /thank-you
 Disallow: /api/
 Disallow: /admin
+Disallow: /api/admin
 
 Sitemap: https://dorcorazors.co.nz/sitemap.xml
