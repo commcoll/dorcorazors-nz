@@ -41,7 +41,11 @@ export async function onRequestPost({ request, env }) {
     items = (await r.json()).data || [];
   } catch (e) {}
 
-  const ship = (s.shipping_details || s.customer_details || {});
+  // Stripe moved the delivery address to collected_information.shipping_details;
+  // shipping_details is now null, and customer_details holds BILLING, not delivery.
+  const ship = ((s.collected_information || {}).shipping_details)
+            || s.shipping_details
+            || s.customer_details || {};
   const addr = ship.address || {};
   const email = (s.customer_details || {}).email || '';
   const when = new Date((s.created || Date.now() / 1000) * 1000).toISOString();
