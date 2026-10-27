@@ -1,6 +1,9 @@
 // Newsletter sign-ups stored in D1 — export any time for a campaign.
+import { overLimit } from './_ratelimit.js';
 const json=(b,s=200)=>new Response(JSON.stringify(b),{status:s,headers:{'Content-Type':'application/json'}});
 export async function onRequestPost({request, env}) {
+  if (await overLimit(env, request, 'subscribe', 5, 60))
+    return json({error:'Too many sign-ups. Please wait a minute and try again.'},429);
   let d;
   try { d = await request.json(); } catch { return json({error:'Malformed request.'},400); }
   const email=(typeof d.email==='string'?d.email.trim().slice(0,160):'').toLowerCase();

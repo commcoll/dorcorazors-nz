@@ -29,6 +29,8 @@ const RATE_RURAL    = 'shr_1UCTWCLgI1sZykgoZTAdaqpX'; // Rural Delivery  $11.00
 const RATE_RURAL_RED= 'shr_1UCTWDLgI1sZykgodJMgVXKf'; // Rural Delivery   $5.00 (over threshold)
 const FREE_SHIPPING_FROM = 3000;                      // $30.00 subtotal
 
+import { overLimit } from './_ratelimit.js';
+
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
     status, headers: { 'Content-Type': 'application/json' }
@@ -36,6 +38,9 @@ const json = (body, status = 200) =>
 
 export async function onRequestPost({ request, env }) {
   if (!env.STRIPE_SECRET_KEY) return json({ error: 'Payments are not configured.' }, 500);
+
+  if (await overLimit(env, request, 'checkout', 20, 60))
+    return json({ error: 'Too many checkout attempts. Please wait a minute and try again.' }, 429);
 
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Malformed request.' }, 400); }

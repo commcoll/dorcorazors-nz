@@ -751,3 +751,9 @@ footer {
 .ship-grid p { margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
 .ship-actions { display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
 @media (max-width: 700px) { .ship-grid { grid-template-columns: 1fr; } }
+
+/* Contact page social links (hover was inline JS before the CSP) */
+.social-link.social-fb:hover { background: #e8f0ff !important; }
+.social-link.social-ig:hover { background: #ffeef8 !important; }
+/* Contact form honeypot: people never see it, bots fill it in */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

@@ -1,8 +1,11 @@
 // Stores contact enquiries in D1. Nothing is lost if email delivery is unavailable.
+import { overLimit } from './_ratelimit.js';
 const json=(b,s=200)=>new Response(JSON.stringify(b),{status:s,headers:{'Content-Type':'application/json'}});
 const clean=(v,max)=>typeof v==='string'?v.trim().slice(0,max):'';
 
 export async function onRequestPost({request, env}) {
+  if (await overLimit(env, request, 'contact', 3, 60))
+    return json({error:'Too many messages. Please wait a minute and try again.'},429);
   let d;
   try { d = await request.json(); } catch { return json({error:'Malformed request.'},400); }
   const first=clean(d.first,80), last=clean(d.last,80), email=clean(d.email,160);

@@ -22,6 +22,12 @@ export async function checkSession(request, secret) {
   if (!exp || !sig || Number(exp) < Date.now()) return false;
   return safeEq(sig, await hmac(secret, exp));
 }
+// Compares HMACs of the two strings, so neither the time taken nor an early length check
+// says anything about the real password.
+export async function samePassword(given, real) {
+  const k = 'dorco-admin-password-compare';
+  return safeEq(await hmac(k, given), await hmac(k, real));
+}
 export const json = (b, s=200, extra={}) =>
   new Response(JSON.stringify(b), {status:s, headers:{'Content-Type':'application/json', ...extra}});
 export { safeEq };
