@@ -746,6 +746,22 @@ footer {
 .admin-table th { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--steel); padding: 8px 10px; border-bottom: 1px solid #e2e2e2; white-space: nowrap; }
 .admin-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
 .admin-table tr:hover td { background: var(--light-bg); }
+
+/* Recent orders: rows expand in place */
+.ord-row { cursor: pointer; }
+.ord-row:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
+.ord-row td { white-space: nowrap; }
+.ord-caret { width: 18px; text-align: center; vertical-align: middle; color: var(--steel); transition: transform .15s ease; transform-origin: center; }
+.ord-row.open .ord-caret { transform: rotate(90deg); }
+.ord-row.open td { background: var(--light-bg); font-weight: 500; }
+.ord-detail td { background: var(--light-bg); border-bottom: 2px solid #e2e2e2; padding: 16px 14px; }
+.ord-detail:hover td { background: var(--light-bg); }
+.ord-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.ord-detail-grid p { margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.ord-sub { font-size: 12px; color: var(--steel); }
+.ord-items { width: 100%; font-size: 13px; margin-top: 4px; border-collapse: collapse; }
+.ord-items td { padding: 2px 6px 2px 0; border: 0; vertical-align: top; }
+.ord-detail .btn { margin-top: 10px; }
 .ship-card { border: 1px solid #e2e2e2; border-radius: 8px; padding: 16px; margin-bottom: 12px; background: var(--white); }
 .ship-grid { display: grid; grid-template-columns: 1.2fr 1fr .8fr; gap: 20px; font-size: 13px; }
 .ship-grid p { margin: 4px 0 0; font-size: 13px; line-height: 1.5; }

@@ -25,6 +25,57 @@
             o.ship_country].filter(function (x) { return x; }).map(esc).join('<br>');
   }
 
+  // Recent orders: one row per order, with a detail row that opens underneath it.
+  function ordersTable(rows) {
+    if (!rows.length) return '<p class="cart-empty">Nothing here yet.</p>';
+    var cols = ['', 'Order', 'Date', 'Source', 'Email', 'City', 'Total', 'Status', 'Fulfilment', 'Tracking'];
+    return '<div style="overflow-x:auto;"><table class="admin-table ord-table"><thead><tr>' +
+      cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr class="ord-row" data-id="' + esc(r.id) + '" tabindex="0" role="button" aria-expanded="false">' +
+            '<td class="ord-caret">&#9656;</td>' +
+            '<td><strong>' + esc(r.id) + '</strong></td>' +
+            '<td>' + esc(date(r.date_created)) + '</td>' +
+            '<td>' + esc(r.source) + '</td>' +
+            '<td>' + esc(r.email) + '</td>' +
+            '<td>' + esc(r.city) + '</td>' +
+            '<td>' + money(r.total) + '</td>' +
+            '<td>' + esc(r.status) + '</td>' +
+            '<td>' + (r.source === 'stripe' ? (r.fulfilled ? 'Shipped' : '<b>To ship</b>') : '&mdash;') + '</td>' +
+            '<td>' + (esc(r.tracking) || '&mdash;') + '</td>' +
+          '</tr>' +
+          '<tr class="ord-detail" hidden><td colspan="' + cols.length + '">' + orderDetail(r) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function orderDetail(o) {
+    var items = (o.items || []).length
+      ? '<table class="ord-items"><tbody>' + o.items.map(function (i) {
+          return '<tr><td>' + i.quantity + ' &times;</td><td>' + esc(i.name) +
+                 (i.sku ? ' <span style="color:var(--steel);">(' + esc(i.sku) + ')</span>' : '') +
+                 '</td><td style="text-align:right;">' + money(i.total) + '</td></tr>';
+        }).join('') + '</tbody></table>'
+      : '<p style="color:var(--steel);font-size:13px;">No line items recorded.</p>';
+
+    var shipTo = addr(o) || '<span style="color:var(--steel);">Not recorded</span>';
+
+    return '<div class="ord-detail-grid">' +
+        '<div><div class="admin-stat-l">Deliver to</div><p>' + shipTo + '</p>' +
+          (o.phone ? '<p class="ord-sub">' + esc(o.phone) + '</p>' : '') +
+          '<p class="ord-sub">' + esc(o.email) + '</p></div>' +
+        '<div><div class="admin-stat-l">Items</div>' + items + '</div>' +
+        '<div><div class="admin-stat-l">Order</div>' +
+          '<p class="ord-sub"><strong>#' + esc(o.id) + '</strong><br>' +
+          esc(String(o.date_created || '').replace('T', ' ').slice(0, 16)) + '<br>' +
+          money(o.total) + '<br>' + esc(o.shipping_method || 'No shipping method') + '<br>' +
+          esc(o.status) + (o.fulfilled_at ? '<br>Shipped ' + esc(date(o.fulfilled_at)) : '') +
+          (o.tracking ? '<br>Tracking ' + esc(o.tracking) : '') + '</p>' +
+          '<button class="btn btn-outline slip-one" data-id="' + esc(o.id) + '" style="width:auto;font-size:11px;padding:8px 14px;">Packing slip</button>' +
+        '</div>' +
+      '</div>';
+  }
+
   function fulfilSection(queue) {
     if (!queue || !queue.length)
       return '<h2 style="font-size:20px;margin:28px 0 12px;">To ship</h2>' +
@@ -82,12 +133,8 @@
       });
 
     html += '<h2 style="font-size:20px;margin:28px 0 12px;">Recent orders</h2>' +
-      table(['Order', 'Date', 'Source', 'Email', 'City', 'Total', 'Status', 'Fulfilment', 'Tracking'], d.recent || [], function (r) {
-        return ['<strong>' + esc(r.id) + '</strong>', esc(date(r.date_created)), esc(r.source),
-                esc(r.email), esc(r.city), money(r.total), esc(r.status),
-                r.source === 'stripe' ? (r.fulfilled ? 'Shipped' : '<b>To ship</b>') : '&mdash;',
-                esc(r.tracking) || '&mdash;'];
-      });
+      '<p style="font-size:12px;color:var(--steel);margin:-6px 0 10px;">Click an order to see the address and items.</p>' +
+      ordersTable(d.recent || []);
 
     html += '<h2 style="font-size:20px;margin:28px 0 12px;">Best sellers</h2>' +
       table(['Product', 'Qty', 'Revenue'], d.top || [], function (r) {
@@ -135,6 +182,30 @@
           if (r.ok) { card.style.opacity = '.4'; btn.textContent = 'Shipped ✓'; }
           else { btn.disabled = false; btn.textContent = 'Mark shipped'; }
         }).catch(function () { btn.disabled = false; btn.textContent = 'Mark shipped'; });
+      });
+    });
+
+    [].forEach.call(panel.querySelectorAll('.ord-row'), function (row) {
+      var detail = row.nextElementSibling;
+      var toggle = function () {
+        var open = detail.hidden;
+        detail.hidden = !open;
+        row.classList.toggle('open', open);
+        row.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      row.addEventListener('click', function (e) {
+        if (e.target.closest('button')) return;        // let the slip button through
+        toggle();
+      });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+
+    [].forEach.call(panel.querySelectorAll('.slip-one'), function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        window.open('/api/admin/packing-slip?id=' + encodeURIComponent(btn.dataset.id), '_blank');
       });
     });
 

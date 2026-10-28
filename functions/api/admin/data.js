@@ -7,7 +7,7 @@ export async function onRequestGet({ request, env }) {
 
   const q = async (sql, ...a) => (await env.DB.prepare(sql).bind(...a).all()).results || [];
   try {
-    const [summary, byYear, recent, top, customers, enquiries, subs, subList, queue, qitems] = await Promise.all([
+    const [summary, byYear, recent, ritems, top, customers, enquiries, subs, subList, queue, qitems] = await Promise.all([
       q(`SELECT COUNT(*) orders, ROUND(SUM(total),2) revenue,
                 MIN(date_created) first, MAX(date_created) last
          FROM orders WHERE status IN ('completed','processing')`),
@@ -18,6 +18,8 @@ export async function onRequestGet({ request, env }) {
                 ship_name, ship_line1, ship_line2, ship_state, ship_country, postcode,
                 phone, fulfilled, fulfilled_at, tracking
          FROM orders ORDER BY date_created DESC LIMIT 50`),
+      q(`SELECT order_id, name, sku, quantity, total FROM order_items
+         WHERE order_id IN (SELECT id FROM orders ORDER BY date_created DESC LIMIT 50)`),
       q(`SELECT name, SUM(quantity) qty, ROUND(SUM(total),2) rev
          FROM order_items GROUP BY name ORDER BY qty DESC LIMIT 15`),
       q(`SELECT email, first_name, last_name, order_count, total_spent, last_order
@@ -38,6 +40,10 @@ export async function onRequestGet({ request, env }) {
     const byOrder = {};
     for (const it of qitems) (byOrder[it.order_id] = byOrder[it.order_id] || []).push(it);
     for (const o of queue) o.items = byOrder[o.id] || [];
+
+    const recentItems = {};
+    for (const it of ritems) (recentItems[it.order_id] = recentItems[it.order_id] || []).push(it);
+    for (const o of recent) o.items = recentItems[o.id] || [];
     return json({ summary: summary[0]||{}, byYear, recent, top, customers, enquiries,
                   subscribers: (subs[0]||{}).n || 0, subList, queue });
   } catch (e) {
